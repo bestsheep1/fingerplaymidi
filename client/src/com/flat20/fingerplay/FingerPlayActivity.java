@@ -101,11 +101,7 @@ public class FingerPlayActivity extends InteractiveActivity implements SensorEve
 
 		mConfigManager.addListener(mMidiControllerManager);
 		mConfigManager.addListener(mMidiWidgetsContainer);
-		try {
-			mConfigManager.updateConfig();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		parseConfiguration();
 
 
         mRenderer.addSprite( mMidiWidgetsContainer );
@@ -126,8 +122,17 @@ public class FingerPlayActivity extends InteractiveActivity implements SensorEve
 
         
 	}
-
-
+	
+	public void parseConfiguration()
+	{
+		try {
+			mConfigManager.updateConfig();
+			mNavigationOverlay.update(mMidiWidgetsContainer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	NavigationOverlay.IListener mNavigationListener = new NavigationOverlay.IListener() {
 
 		@Override

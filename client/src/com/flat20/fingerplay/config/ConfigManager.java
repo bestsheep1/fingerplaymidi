@@ -63,19 +63,22 @@ public class ConfigManager {
 	//}
 
 	private IParser createParser() {
-		File xmlFile = new File(Environment.getExternalStorageDirectory() + "/FingerPlayMIDI/" + mSettingsModel.layoutFile);
-
-        IParser parser = null;
-        try {
-        	if (mSettingsModel.layoutFile != null && xmlFile != null) {
-    			parser = new FingerPlayV2Parser();
-    			parser.setInput(xmlFile);
-        	}
-		} catch (Exception e) {
-			// Tried loading and parsing file but failed. Most likely the file wasn't there.
-			System.out.println(e);
+		File xmlFile;
+        IParser parser = null;		
+		if (!mSettingsModel.layoutFile.equals("Default")) {
+			xmlFile = new File(Environment.getExternalStorageDirectory() + "/FingerPlayMIDI/" + mSettingsModel.layoutFile);
+	
+	        try {
+	        	if (mSettingsModel.layoutFile != null && xmlFile != null) {
+	    			parser = new FingerPlayV2Parser();
+	    			parser.setInput(xmlFile);
+	        	}
+			} catch (Exception e) {
+				// Tried loading and parsing file but failed. Most likely the file wasn't there.
+				System.out.println(e);
+			}
 		}
-
+		
 		try {
 			if (parser == null && mDefaultConfigXml != null) {
 				mDefaultConfigXml.reset();

@@ -1,5 +1,7 @@
 package com.flat20.gui;
 
+import com.flat20.fingerplay.config.IConfigUpdateListener;
+import com.flat20.fingerplay.config.dto.ConfigLayout;
 import com.flat20.gui.sprites.MaterialSprite;
 import com.flat20.gui.widgets.Button;
 import com.flat20.gui.widgets.FPButton;
@@ -17,7 +19,7 @@ public class NavigationOverlay extends WidgetContainer {
 
 	public NavigationOverlay(int width, int height, IListener listener, IScrollable scrollTarget, WidgetContainer widgetContainer, int screenHeight) {
 		super(width, height);
-
+		
 		mListener = listener;
 
 		MaterialSprite buttonBar = new MaterialSprite(Materials.NAVIGATION_BAR, width, height);
@@ -41,8 +43,11 @@ public class NavigationOverlay extends WidgetContainer {
 
         addSprite( mScreenNavigator );
 	}
-
-
+	
+	public void update(WidgetContainer widgetContainer)
+	{
+		mScreenNavigator.update((Scrollbar.IScrollable)widgetContainer, widgetContainer);
+	}
 
 	// Handle button actions.
 
@@ -57,4 +62,5 @@ public class NavigationOverlay extends WidgetContainer {
 	public interface IListener {
 		public void onSettingsSelected();
 	}
+
 }

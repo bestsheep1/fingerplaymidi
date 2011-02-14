@@ -2,6 +2,9 @@ package com.flat20.fingerplay.settings;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import android.os.Environment;
 import android.util.Log;
@@ -156,9 +159,6 @@ public class SettingsController {
     }
 
 	protected void setLayoutFile(String value) {
-		if (!value.equals(mModel.layoutFile)) {
-			mView.displayError("Restart FingerPlay MIDI to use the new layout file.");
-		}
 		mModel.setLayoutFile(value);
 	}
 
@@ -169,8 +169,12 @@ public class SettingsController {
         File home = new File(Environment.getExternalStorageDirectory() + "/FingerPlayMIDI/");
 
         XMLFilter filter = new XMLFilter();
-        String[] files = home.list(filter);
-        mModel.setLayoutFiles(files);
+        List<String> files = new ArrayList<String>();
+        files.addAll(java.util.Arrays.asList(home.list(filter)));
+        files.add(0, new String("Default"));
+        String[] fileArray = new String[files.size()];
+        files.toArray(fileArray);
+        mModel.setLayoutFiles(fileArray);
     }
 
     class XMLFilter implements FilenameFilter {

@@ -21,9 +21,14 @@ public class Scrollbar extends Widget implements IScrollListener {
 	private int mVisibleArea; // the screen height of the device or the app.
 
 	private int mScreenYs[];
+	
+	private int mWidth, mHeight;
 
 	public Scrollbar(int width, int height, IScrollable target, WidgetContainer widgetContainer, int visibleArea) {
 		super(width, height);
+		
+		mWidth = width;
+		mHeight = height;		
 
 		mTarget = target;
 		mVisibleArea = visibleArea;
@@ -47,6 +52,21 @@ public class Scrollbar extends Widget implements IScrollListener {
 
         addScreensYIn(widgetContainer);
 	}
+
+	public void update(IScrollable target, WidgetContainer widgetContainer) {
+
+		mTarget = target;
+
+		mTarget.setUpdateListener(this);
+		
+		mTarget.scrollTo(0);
+		mThumbHighlight.y = mThumb.y = 0;
+
+        setSize(mWidth, mHeight);
+
+        addScreensYIn(widgetContainer);
+	}
+
 	
 	// TODO Replace this with the proper method of having a data class
 	// for the parsed xml data.

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.flat20.fingerplay.FingerPlayActivity;
 import com.flat20.fingerplay.midicontrollers.MidiControllerManager;
 import com.flat20.fingerplay.network.ConnectionManager;
 
@@ -39,7 +40,8 @@ public class SettingsModel {
 
 
 
-	private static SettingsModel sSingleton = new SettingsModel(); 
+	private static SettingsModel sSingleton = new SettingsModel();
+	private Context activity = null;
 
 	public static SettingsModel getInstance() {
 		return sSingleton;
@@ -50,7 +52,8 @@ public class SettingsModel {
 
 	public void init(Context context) {
 		midiControllerManager = MidiControllerManager.getInstance();
-
+		activity = context;
+		
 		// Load saved data
 		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences( context );
 		String type = mSharedPreferences.getString("settings_server_type", "-1");
@@ -115,6 +118,7 @@ public class SettingsModel {
 	public void setLayoutFile(String value) {
 		layoutFile = value;
 		updateView();
+		((FingerPlayActivity)activity).parseConfiguration();
 	}
 	
 	protected void updateView() {

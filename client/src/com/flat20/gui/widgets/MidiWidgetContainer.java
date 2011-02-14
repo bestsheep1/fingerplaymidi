@@ -44,6 +44,12 @@ public class MidiWidgetContainer extends WidgetContainer implements IScrollable,
 	 */
 	@Override
 	public void onConfigUpdated(ConfigLayout layout) {
+		super.mSprites = new Sprite[0];
+		super.mWidgets = new Widget[0];
+		super.mNumWidgets = 0;
+		super.mNumSprites = 0;
+		height = 0;
+		width = 0;
 		// Scale values if layout wasn't exactly the right size.
 		float scaleX = mScreenWidth / (float)layout.width;
 		float scaleY = mScreenHeight / (float)layout.height;
