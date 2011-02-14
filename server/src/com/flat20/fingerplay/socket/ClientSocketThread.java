@@ -109,11 +109,14 @@ public class ClientSocketThread implements Runnable, IReceiver, IMidiListener {
 
 	public void onRequestMidiDeviceList(RequestMidiDeviceList request) throws Exception {
 
+	
+		// Should MIDI IN device be both write- and readable while
+		// MIDI OUT only opens as write. Try it!
 		String[] deviceNames;
 		if (request.getType() == DeviceList.TYPE_OUT)
-			deviceNames = Midi.getDeviceNames(false, true);
+			deviceNames = Midi.getDeviceNames(true, true);//false,true <-- old settings
 		else
-			deviceNames = Midi.getDeviceNames(true, false);
+			deviceNames = Midi.getDeviceNames(true, true);//true,false
 
 		String allDevices = "";
 		for (int i=0; i<deviceNames.length; i++) {

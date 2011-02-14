@@ -61,6 +61,17 @@ public class FingerPlayServer implements Runnable{
 			IView view = console; // Set the view for this session.
 
 
+			// Show list of MIDI devices on this computer
+
+			String deviceNames[] = Midi.getDeviceNames(true, true);
+			view.print("");
+			view.print("MIDI Devices:");
+			for (int i=0; i<deviceNames.length; i++) {
+				view.print( deviceNames[i] );
+			}
+			view.print("");
+
+
 			// Show network interfaces if one hasn't been selected
 
 			// If update function didn't get the local IP we'll try
