@@ -143,7 +143,7 @@ public class FingerPlayV2Parser implements IParser {
 				Element tempLayout = (Element) layouts.item(i);
 				int layoutWidth = XMLUtils.getIntegerAttribute(tempLayout, "screenWidth");
 				int layoutHeight = XMLUtils.getIntegerAttribute(tempLayout, "screenHeight");
-				int diff = Math.abs(width - layoutWidth);
+				int diff = Math.max(Math.abs(width - layoutWidth), Math.abs(height - layoutHeight));
 				if (diff < bestDiff) {
 					bestDiff = diff;
 					configLayout.ID = i;
