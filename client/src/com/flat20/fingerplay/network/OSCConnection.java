@@ -4,6 +4,7 @@ package com.flat20.fingerplay.network;
 import java.net.ConnectException;
 import java.net.InetAddress;
 
+import com.flat20.fingerplay.midicontrollers.IMidiController;
 import com.flat20.fingerplay.socket.commands.midi.MidiSocketCommand;
 import com.flat20.fingerplay.socket.commands.SocketCommand;
 import com.illposed.osc.OSCMessage;
@@ -23,7 +24,7 @@ public class OSCConnection extends Connection {
 
 	String server = null;
 	int port = 8000;
-
+	
 	private OSCPortOut sender = null;
 
 	public OSCConnection() {
@@ -66,6 +67,29 @@ public class OSCConnection extends Connection {
 	    	}
 		}
 	}
+	
+	@Override
+	public void send(SocketCommand sm, IMidiController mc) {
+		if (sm.command == SocketCommand.COMMAND_MIDI_SHORT_MESSAGE) {
+			MidiSocketCommand msc = (MidiSocketCommand) sm;
+			Object args[] = new Object[1];
+			args[0] = new Integer(msc.data2);
+			String controllername = mc.getName().replaceAll("\\W+", "");
+			
+			//eg. /fingerplay/slider5/press			
+			OSCMessage msg = new OSCMessage("/fingerplay/" 
+					+  controllername
+					+ "/" + msc.param_id, 
+					args);			
+	    	try {
+	    		sender.send((OSCPacket)msg);
+	    	} catch (Exception e) {
+	    		Log.i("osc", "Couldn't send");
+	    	}
+		}
+	}
+	
+//	public void send(SocketCommand sm, MidiController mc);
 
 	public void disconnect() {
 		if (sender != null) {

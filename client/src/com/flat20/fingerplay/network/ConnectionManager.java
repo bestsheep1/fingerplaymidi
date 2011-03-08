@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.os.Handler;
+
+import com.flat20.fingerplay.midicontrollers.IMidiController;
 import com.flat20.fingerplay.socket.commands.SocketCommand;
 
 public class ConnectionManager {
@@ -84,7 +86,15 @@ public class ConnectionManager {
 	public void send(SocketCommand sm) {
 		if (mConnection != null)
 			mConnection.send(sm);
-	}/*
+	}
+	
+	public void send(SocketCommand sm, IMidiController mc) {
+		
+		if (mConnection != null)
+			mConnection.send(sm, mc);
+	}
+	
+	/*
 	public void write(SocketCommand sm) {
 		if (mConnection != null)
 			mConnection.write(sm.data);

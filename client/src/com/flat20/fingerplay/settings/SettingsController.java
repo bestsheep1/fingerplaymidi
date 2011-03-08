@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.flat20.fingerplay.midicontrollers.IMidiController;
+import com.flat20.fingerplay.midicontrollers.Parameter;
 import com.flat20.fingerplay.network.ConnectionManager;
 import com.flat20.fingerplay.socket.commands.SocketCommand;
 import com.flat20.fingerplay.socket.commands.misc.DeviceList;
@@ -99,7 +100,6 @@ public class SettingsController {
 
     };
 
-
     // Controller commands
 
     protected void setConnectionType(int connectionType) {
@@ -138,6 +138,14 @@ public class SettingsController {
 		}
     }
 
+	public void sendLayout()
+	{
+		for (IMidiController mc: mModel.midiControllerManager.getMidiControllers())
+			for (Parameter p: mc.getParameters())
+				//sendControlChange(mc.getName(), p.id);
+				mc.sendParameter(p.id, 0x7F);
+	}
+    
     protected void sendControlChange(String controllerName, int parameterId) {
 		IMidiController mc = mModel.midiControllerManager.getMidiControllerByName(controllerName);
 		if (mc != null) {
@@ -161,7 +169,6 @@ public class SettingsController {
 	protected void setLayoutFile(String value) {
 		mModel.setLayoutFile(value);
 	}
-
 
 	// Layout files listing
 

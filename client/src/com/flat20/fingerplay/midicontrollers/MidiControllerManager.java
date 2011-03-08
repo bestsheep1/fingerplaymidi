@@ -148,25 +148,28 @@ public class MidiControllerManager implements IConfigUpdateListener {
 		final private MidiNoteOff mNoteOff = new MidiNoteOff();
 
 		@Override
-    	public void onControlChange(IMidiController midiController, int channel, int controllerNumber, int value) {
-			System.out.println("onControlChange " + 0xB0 + ", " + channel + ", " + controllerNumber + ", " + value);
-			mControlChange.set(0xB0, channel, controllerNumber, value);
-			mConnectionManager.send( mControlChange );
+    	public void onControlChange(IMidiController midiController, Parameter p, int value) {
+			System.out.println("onControlChange " + 0xB0 + ", " + p.channel + ", " + p.controllerNumber + ", " + value);
+			mControlChange.set(0xB0, p.channel, p.controllerNumber, value);
+			mControlChange.param_id = p.id;
+			mConnectionManager.send( mControlChange, midiController);
     	}
  
     	@Override
-    	public void onNoteOn(IMidiController midiController, int channel, int key, int velocity) {
-    		System.out.println("onNoteOn " + channel + ", " + key + ", " + velocity);
+    	public void onNoteOn(IMidiController midiController, Parameter p, int velocity) {
+    		System.out.println("onNoteOn " + p.channel + ", " + p.controllerNumber + ", " + velocity);
 			// midi channel, key, velocity
-			mNoteOn.set(channel, key, velocity);
-			mConnectionManager.send( mNoteOn );
+			mNoteOn.set(p.channel, p.controllerNumber, velocity);
+			mNoteOn.param_id = p.id;
+			mConnectionManager.send( mNoteOn , midiController);
     	}
 
     	@Override
-    	public void onNoteOff(IMidiController midiController, int channel, int key, int velocity) {
-    		System.out.println("onNoteOff " + channel + ", " + key + ", " + velocity);
-			mNoteOff.set(channel, key, velocity);
-			mConnectionManager.send(mNoteOff);
+    	public void onNoteOff(IMidiController midiController, Parameter p, int velocity) {
+    		System.out.println("onNoteOff " + p.channel + ", " + p.controllerNumber + ", " + velocity);
+			mNoteOff.set(p.channel, p.controllerNumber, velocity);
+			mNoteOff.param_id = p.id;
+			mConnectionManager.send(mNoteOff, midiController);
     	}
 
     };

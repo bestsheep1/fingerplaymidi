@@ -53,13 +53,13 @@ public abstract class AbstractMidiController implements IMidiController {
 			final int type = p.type;
 			switch(type) {
 				case Parameter.TYPE_CONTROL_CHANGE:
-					mListener.onControlChange(this, p.channel, p.controllerNumber, value);
+					mListener.onControlChange(this, p, value);
 					break;
 				case Parameter.TYPE_NOTE_ON:
-					mListener.onNoteOn(this, p.channel, p.controllerNumber, value);
+					mListener.onNoteOn(this, p, value);
 					break;
 				case Parameter.TYPE_NOTE_OFF:
-					mListener.onNoteOff(this, p.channel, p.controllerNumber, value);
+					mListener.onNoteOff(this, p, value);
 					break;
 			}
 

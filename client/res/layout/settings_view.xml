@@ -62,6 +62,13 @@
             android:summary="Send MIDI messages to the server."
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 		/>
+	    <Preference
+	   		android:key="settings_send_layout"
+			android:title="Send layout"
+	   		android:summary="Sends current layout to the server."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+        />
 	</PreferenceCategory>
 
 </PreferenceScreen>

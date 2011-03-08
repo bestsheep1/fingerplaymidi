@@ -3,6 +3,7 @@ package com.flat20.fingerplay.settings;
 import java.util.Set;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -11,6 +12,9 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.flat20.fingerplay.R;
@@ -35,6 +39,7 @@ public class SettingsView extends PreferenceActivity implements Preference.OnPre
     protected ListPreference mDevicesIn;
     protected PreferenceScreen mMidiSettings;
 
+    protected Preference mSendLayout;
 
     protected ProgressDialog mConnectingDialog = null;
 
@@ -59,6 +64,15 @@ public class SettingsView extends PreferenceActivity implements Preference.OnPre
 		mMidiSettings = (PreferenceScreen) findPreference( "settings_midi_controllers" );
 		mLayoutFiles = (ListPreference) findPreference( "settings_layout_file" );
 		mLayoutFiles.setOnPreferenceChangeListener(this);
+		mSendLayout = (Preference)findPreference("settings_send_layout");
+		mSendLayout.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+        		mController.sendLayout();				
+				return true;
+			}
+		});
+		mSendLayout.setEnabled(mServerConnectCheckBox.isChecked());
 
 		// init MVC - Would be nice if each setting had its own model/view/controller
 		mController = new SettingsController(this);
@@ -167,7 +181,6 @@ public class SettingsView extends PreferenceActivity implements Preference.OnPre
 
 				mServerConnectCheckBox.setTitle("Disconnect from Server");
 
-
 				break;
 
 			case SettingsModel.STATE_DISCONNECTED:
@@ -184,7 +197,6 @@ public class SettingsView extends PreferenceActivity implements Preference.OnPre
 	       		mMidiSettings.setEnabled(false);
 				break;
 		}
-
 
 		// Update server type
 		if (mModel.serverType == ConnectionManager.CONNECTION_TYPE_OSC) {
@@ -276,11 +288,10 @@ public class SettingsView extends PreferenceActivity implements Preference.OnPre
 			mDevicesIn.setEntryValues(entryValues);
 
 			mDevicesIn.setEnabled( (mModel.midiDevicesIn != null) );
-
-//}
-
 			// Enable individual controller settings if we have a MIDI device set.
 			mMidiSettings.setEnabled( (mModel.midiDevicesOut != null) ); 
+			
+			mSendLayout.setEnabled(mServerConnectCheckBox.isChecked());
 
 	}
 

@@ -2,6 +2,7 @@ package com.flat20.fingerplay.network;
 
 import java.net.ConnectException;
 
+import com.flat20.fingerplay.midicontrollers.IMidiController;
 import com.flat20.fingerplay.socket.commands.SocketCommand;
 
 /**
@@ -27,6 +28,10 @@ public abstract class Connection {
 	}
 */
 	public void send(SocketCommand socketCommand) {
+	}
+	
+	public void send(SocketCommand socketCommand, IMidiController mc) {
+		send(socketCommand);
 	}
 
 	protected OnUpdateListener listener;

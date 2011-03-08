@@ -8,6 +8,8 @@ public class MidiSocketCommand extends SocketCommand {
 	public int channel;
 	public int data1;
 	public int data2;
+	
+	public int param_id;
 
 	public MidiSocketCommand() {
 		super(COMMAND_MIDI_SHORT_MESSAGE);
