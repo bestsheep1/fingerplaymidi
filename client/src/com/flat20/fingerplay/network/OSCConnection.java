@@ -88,8 +88,6 @@ public class OSCConnection extends Connection {
 	    	}
 		}
 	}
-	
-//	public void send(SocketCommand sm, MidiController mc);
 
 	public void disconnect() {
 		if (sender != null) {

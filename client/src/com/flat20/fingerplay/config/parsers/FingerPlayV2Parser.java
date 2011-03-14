@@ -184,10 +184,10 @@ public class FingerPlayV2Parser implements IParser {
 			Element screenElement = (Element) screenElements.item(s);
 
 			ConfigScreen configScreen = new ConfigScreen();
-			configScreen.x = XMLUtils.getIntegerAttribute(screenElement, "x");
-			configScreen.y = XMLUtils.getIntegerAttribute(screenElement, "y");
-			configScreen.width = XMLUtils.getIntegerAttribute(screenElement, "width");
-			configScreen.height = XMLUtils.getIntegerAttribute(screenElement, "height");
+			configScreen.x = XMLUtils.getIntegerAttribute(screenElement, "x", 0);
+			configScreen.y = XMLUtils.getIntegerAttribute(screenElement, "y", s*configLayout.height);
+			configScreen.width = XMLUtils.getIntegerAttribute(screenElement, "width", configLayout.width);
+			configScreen.height = XMLUtils.getIntegerAttribute(screenElement, "height", configLayout.height);
 
 			NodeList widgets = screenElement.getChildNodes();
 			final int wlength =  widgets.getLength();
